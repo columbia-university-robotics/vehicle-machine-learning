@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="namespace" default="scout_1"/>
+
+    <node pkg="csi_rover_localizer" type="lidar_proc.py" name="lidar_proc" output="screen">
+        <param name="rover_name" value="$(arg namespace)" />
+        <param name="imu_topic" value="/$(arg namespace)/imu" />
+        <param name="depth_image_topic" value="/stereo/depth_image" />
+        <param name="odom_topic" value="/debugging/gt_odom" />
+        <param name="laser_scan_topic" value="/$(arg namespace)/laser/scan" />
+        <param name="vision_laser_scan" value="/vision/laser/scan" />
+        <param name="occupancy_topic" value="/lidar_occupancy" />
+        <param name="enable_occupancy" value="false" />
+        <param name="buffer_distance" value="1.5" />
+        <param name="debug" value="false" />
+        <param name="print_collision" value="true" />
+    </node>
+
+</launch>

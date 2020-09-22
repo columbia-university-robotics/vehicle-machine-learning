@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!-- csi_rover.launch
+http://answers.gazebosim.org/question/21826/how-to-use-the-gazebo_ros-skid-steer-drive-plugin/
+
+        Vehicle pose. x, y, and z are measured in meters. roll, pitch, and yaw
+        are measured in radians.
+-->
+
+<launch>
+
+    <arg name="world_name" default="worlds/empty.world"/>
+
+    <!--    <arg name="world_name" default="$(find csi_rover_gazebo)/world/apollo_15.world"/>-->
+    <arg name="cmd_timeout" default="0.5"/>
+
+    <!-- Get the description files.-->
+    <include file="$(find csi_rover_description)/launch/csi_rover.launch" />
+
+    <!-- Include vision -->
+    <include file="$(find csi_rover_vision)/launch/vision.launch" />
+
+    <!-- Spawn World -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!--            <arg name="world_name" default="worlds/empty.world"/>-->
+
+        <arg name="world_name" value="$(find csi_rover_gazebo)/worlds/apollo_15.world"/>
+        <arg name="verbose" value="true"/>
+    </include>
+
+    <arg name="pi/2" value="1.5707963267948966" />
+    <arg name="optical_rotate_1" value="0 0.2 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+    <arg name="optical_rotate_2" value="0 -0.2 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+    <node pkg="tf" type="static_transform_publisher" name="camera_base_link"
+          args="$(arg optical_rotate_1) main_camera_link left_camera_link 100" />
+    <node pkg="tf" type="static_transform_publisher" name="camera_base_link_2"
+          args="$(arg optical_rotate_2) main_camera_link right_camera_link 100" />
+
+</launch>

@@ -1,0 +1,9 @@
+<launch>
+
+    <arg name="rover_name" default="scout_1"/>
+    <param name="rover_name" value="$(arg rover_name)" />
+
+    <include file="$(find pid)/launch/wheel_pid_controller.launch"/>
+    <!--<include file="$(find diff_drive_controller)/launch/view_diff_drive.launch" />-->
+    <include file="$(find four_wheel_steering_controller)/launch/view_four_wheel_steering.launch" />
+</launch>

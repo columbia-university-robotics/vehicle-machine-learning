@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="rover_name"  default="scout_1"/>
+
+    <!-- Launch sensor rectification -->
+    <include file="$(find csi_rover_sensors)/launch/csi_rover_sensors.launch" />
+
+    <node pkg="csi_rover_launcher" type="startup_node.py" name="startup_node" output="screen" />
+    
+    <!-- Launch vision system -->
+    <include file="$(find csi_rover_vision)/launch/vision.launch" />
+
+    <!-- Launch localizer ( EKF )-->
+    <include file="$(find csi_rover_localizer)/launch/localizer.launch" />
+
+    <!-- Launch Navigation ( Move Base )-->
+    <include file="$(find csi_rover_navigation)/launch/navigation_3.launch" />
+
+    <!-- Launch rover control -->
+    <include file="$(find csi_rover_controls)/launch/csi_rover_controls.launch" />
+
+    <!-- Launch watchdog for rover -->
+    <include file="$(find csi_rover_watchdog)/launch/launch_watchdog.launch" />
+
+    <!-- Detect the position of the home base -->
+    <node pkg="csi_rover_vision" type="depth_image_processor.py" name="depth_image_processor" />
+
+    <!-- Detect the position of the cube -->
+    <node pkg="csi_rover_vision" type="cube_detection" name="cube_detection" />
+
+    <node pkg="csi_rover_vision" type="cube_score_node.py" name="cube_score_node" />
+
+</launch>

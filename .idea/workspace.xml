@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d7de7a2a-44cb-4137-bd0a-4a90c0b8fd04" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_controls/config/csi_rover_control.perspective" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_controls/config/csi_rover_control.perspective" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_controls/launch/csi_rover_controls.launch" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_controls/launch/csi_rover_controls.launch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_gazebo/rviz/basic_rviz_config.rviz" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_gazebo/rviz/basic_rviz_config.rviz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_launcher/scripts/startup_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_launcher/scripts/startup_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_localizer/launch/visual_odom.launch" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_localizer/launch/visual_odom.launch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_localizer/nodes/rover_localization_gt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_localizer/test_scripts/rover_localization_gt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_localizer/test_scripts/set_rover_init_pose.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_localizer/test_scripts/set_rover_init_pose.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/csi_rover_vision/launch/vision.launch" beforeDir="false" afterPath="$PROJECT_DIR$/src/csi_rover_vision/launch/vision.launch" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="c09d0dac-0afd-4319-8641-0c4d94a1bcfa" />
+  <component name="ProjectId" id="1XdmOjoZ2kr5zmS7mrUGodi9Dy1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/csi_rover_localizer/test_scripts" />
+      <recent name="$PROJECT_DIR$/src/csi_rover_localizer/nodes" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d7de7a2a-44cb-4137-bd0a-4a90c0b8fd04" name="Default Changelist" comment="" />
+      <created>1581384315488</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581384315488</updated>
+      <workItem from="1581384317114" duration="2285000" />
+      <workItem from="1584586096383" duration="603000" />
+      <workItem from="1584925368642" duration="782000" />
+      <workItem from="1584974248487" duration="8988000" />
+      <workItem from="1585009363381" duration="3237000" />
+      <workItem from="1585013434945" duration="3850000" />
+      <workItem from="1585071853589" duration="15162000" />
+      <workItem from="1585146711262" duration="4332000" />
+      <workItem from="1585153262834" duration="1110000" />
+      <workItem from="1585155530463" duration="4437000" />
+      <workItem from="1585163036299" duration="661000" />
+      <workItem from="1585166356395" duration="11581000" />
+      <workItem from="1585248515640" duration="6571000" />
+      <workItem from="1585332099110" duration="16399000" />
+      <workItem from="1585422691033" duration="20000" />
+      <workItem from="1585441441307" duration="5965000" />
+      <workItem from="1585447992551" duration="5615000" />
+      <workItem from="1585494238829" duration="444000" />
+      <workItem from="1585494869711" duration="9678000" />
+      <workItem from="1585571659416" duration="4240000" />
+      <workItem from="1586802629129" duration="7000" />
+      <workItem from="1586802656113" duration="1201000" />
+      <workItem from="1587074754068" duration="13700000" />
+      <workItem from="1587220370158" duration="18699000" />
+      <workItem from="1587400124892" duration="5000" />
+      <workItem from="1587400148153" duration="17968000" />
+      <workItem from="1587697968347" duration="14255000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="291" y="120" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585452731864">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="291" y="120" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1533.873@67.27.1533.873" timestamp="1585452731864" />
+    <state x="507" y="252" width="695" height="404" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581385020638">
+      <screen x="70" y="27" width="1530" height="840" />
+    </state>
+    <state x="507" y="252" width="695" height="404" key="#com.intellij.fileTypes.FileTypeChooser/70.27.1530.840@70.27.1530.840" timestamp="1581385020638" />
+    <state x="613" y="225" width="424" height="484" key="FileChooserDialogImpl" timestamp="1585422707370">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="613" y="225" width="424" height="484" key="FileChooserDialogImpl/67.27.1533.873@67.27.1533.873" timestamp="1585422707370" />
+    <state x="802" y="367" key="SettingsEditor" timestamp="1587074809297">
+      <screen x="67" y="27" width="2493" height="1413" />
+    </state>
+    <state x="802" y="367" key="SettingsEditor/67.27.2493.1413@67.27.2493.1413" timestamp="1587074809297" />
+    <state x="489" y="290" key="com.intellij.ide.util.TipDialog" timestamp="1585571663220">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="489" y="290" key="com.intellij.ide.util.TipDialog/67.27.1533.873@67.27.1533.873" timestamp="1585571663220" />
+    <state x="486" y="45" width="488" height="655" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585166899344">
+      <screen x="67" y="27" width="1533" height="873" />
+    </state>
+    <state x="486" y="45" width="488" height="655" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1533.873@67.27.1533.873" timestamp="1585166899344" />
+    <state x="488" y="44" width="683" height="813" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/70.27.1530.840@70.27.1530.840" timestamp="1581385777042" />
+    <state x="740" y="310" width="1404" height="949" key="find.popup" timestamp="1587481958686">
+      <screen x="67" y="27" width="2493" height="1413" />
+    </state>
+    <state x="481" y="202" width="863" height="586" key="find.popup/67.27.1533.873@67.27.1533.873" timestamp="1585426552699" />
+    <state x="740" y="310" width="1404" height="949" key="find.popup/67.27.2493.1413@67.27.2493.1413" timestamp="1587481958686" />
+    <state x="765" y="297" width="1097" height="1142" key="search.everywhere.popup" timestamp="1587481919407">
+      <screen x="67" y="27" width="2493" height="1413" />
+    </state>
+    <state x="496" y="194" width="674" height="705" key="search.everywhere.popup/67.27.1533.873@67.27.1533.873" timestamp="1585443121044" />
+    <state x="765" y="297" width="1097" height="1142" key="search.everywhere.popup/67.27.2493.1413@67.27.2493.1413" timestamp="1587481919407" />
+    <state x="498" y="188" width="672" height="678" key="search.everywhere.popup/70.27.1530.840@70.27.1530.840" timestamp="1581386045936" />
+  </component>
+</project>

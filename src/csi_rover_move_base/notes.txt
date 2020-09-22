@@ -1,0 +1,85 @@
+
+
+http://wiki.ros.org/navigation/Tutorials/RobotSetup
+
+http://wiki.ros.org/navigation/Tutorials/SendingSimpleGoals
+
+++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
+
+SOLUTION :
+
+Updating ros_navigation_stack/costmap_2d/src/costmap_2d_ros.cpp 
+  * base_link --> scout_1_tf/chassis,
+
+DILEMMA :
+
+  * [1592113969.534283686, 477.390000000]: Timed out waiting for transform from base_link to map to become available before running costmap, tf error: canTransform: source_frame base_link does not exist.. canTransform returned after 0.1 timeout was 0.1.
+
+
+++++++++++++++++++++++++++++++++++++
+
+IDEAS :
+(1)
+  " http://wiki.ros.org/navigation/Tutorials/RobotSetup
+  Creating a Launch File for the Navigation Stack
+  "
+  Suggests a launch file which loads a map before running move base.
+  * ros_navigation_stack/costmap_2d/src/costmap_2d_ros.cpp
+    line 88 -- private_nh.param("global_frame", global_frame_, std::string("map"));
+    uses map as the global frame.
+  * Ive tried changing this to "odom" with no luck.
+(2)
+  I've tried doing something similar to (1) where I instead change dwa_planner.cpp
+  and csi_rover_move_base.cpp to have "global_frame" == "map" ( instead of "odom" ).
+  but that is also unsuccessful. 
+
+(3)
+  After rosrun csi_rover_move_base csi_rover_move_base
+  Aside from using :
+    rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: '' ---- I TRIED NO FRAME ID , and FRAME ID == scout_1_tf/chassis 
+pose:
+  position:
+    x: 10.0
+    y: 0.0
+    z: 0.0
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0"
+(4)
+  I've tried using my python goal publisher JIC the time in the header needed to have to current time.    
+
+SOLUTION :
+--- TODO
+DILEMMA : 
+
+  [ INFO] [1592193282.371014526, 135.370000000]: In controlling state.
+  [ERROR] [1592193282.371206301, 135.370000000]: Received plan with zero length
+  [ERROR] [1592193282.371310362, 135.370000000]: Received plan with zero length
+  [ WARN] [1592193282.371669562, 135.370000000]: Could not transform the global plan to the frame of the controller
+  [ERROR] [1592193282.371859961, 135.370000000]: Could not get local plan
+  [ INFO] [1592193282.372057274, 135.370000000]: The local planner could not find a valid plan.
+
+++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+Potential changes todo : 
+
+  ++++++++++++++++++++++++++++++++++++++++
+odom --> map
+       /Workspace/work/SRC-Phase2/src/ros_navigation_stack/dwa_local_planner/src/dwa_planner.cpp private_nh.param("global_frame_id", frame_id_, std::string("map"));
+
+  ++++++++++++++++++++++++++++++++++++++++
+set holonomic --> to false for diff drive

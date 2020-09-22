@@ -1,0 +1,23 @@
+four_wheel_steering_controller:
+#  front_wheel: ['front_left_wheel', 'front_right_wheel']
+#  rear_wheel: ['rear_left_wheel', 'rear_right_wheel']
+#  front_steering: ['front_left_steering_joint', 'front_right_steering_joint']
+#  rear_steering: ['rear_left_steering_joint', 'rear_right_steering_joint']
+  front_wheel: ['fl_wheel_joint', 'fr_wheel_joint']
+  rear_wheel: ['bl_wheel_joint', 'br_wheel_joint']
+  front_steering: ['fl_steering_arm_joint', 'fr_steering_arm_joint']
+  rear_steering: ['bl_steering_arm_joint', 'br_steering_arm_joint']
+
+  publish_rate: 50
+  pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+  cmd_vel_timeout: 25.0 # not tested here
+  wheel_radius : 0.275
+  wheel_base: 1.5748 #==0.7874*2  (distance between front and rear wheel)
+  track: 0.936625    #==1.87325/2 distance between left and right wheels (from the midpoint of the wheel width)
+  # Base frame_id
+  base_frame_id: base_footprint
+  # Odometry fused with IMU is published by robot_localization, so
+  # no need to publish a TF based on encoders alone.
+  enable_odom_tf: true
+

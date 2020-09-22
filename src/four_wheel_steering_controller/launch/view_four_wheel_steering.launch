@@ -1,0 +1,19 @@
+<launch>
+  <!-- Start gazebo world 
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>-->
+  <!-- OR -->
+  <!-- Load controller config 
+ 	<param name="rover_name" value="$(arg rover_name)" />-->
+
+  <rosparam command="load" file="$(find four_wheel_steering_controller)/config/four_wheel_steering_controller_4ws_cmd.yaml" />
+
+  <!-- Start four_wheel_steering -->
+	<node name="four_wheel_steering_controller_node"
+	pkg="four_wheel_steering_controller"
+	type="ros_controller_main" output="screen">
+	</node>
+	
+
+</launch>
+
+

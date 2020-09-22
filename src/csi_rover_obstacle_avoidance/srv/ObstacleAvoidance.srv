@@ -1,0 +1,7 @@
+float64 goal_x
+float64 goal_y
+---
+bool arrived
+float64 end_x
+float64 end_y
+

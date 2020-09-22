@@ -1,0 +1,13 @@
+<launch>
+    <param name="rover_id" value="1"/>
+    <param name="ground_truth_topic" value="/debugging/gt_odom" />
+    <param name="odometry_estimator_topic" value="/scout_1/ekf_odom" />
+    <node pkg="diagnostics" type="odom_diag" name="odom_diag" output="screen" />
+
+    <!--
+    <node pkg="csi_rover_obstacle_avoidance" type="service_tester.py" name="service_tester" output="screen" />
+    -->
+
+ <!--node pkg="rosbag" type="record" name="rosbag_record_diag"
+       args="record  -e  /debugging/localization/(.*)"/-->  
+</launch>

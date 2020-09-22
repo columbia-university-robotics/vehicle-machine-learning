@@ -1,0 +1,211 @@
+#########
+# First #
+#########
+# get ros
+#http://wiki.ros.org/melodic/Installation/Ubuntu
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+sudo apt update
+sudo apt upgrade
+
+sudo apt install ros-melodic-desktop-full
+
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+sudo rosdep init
+rosdep update
+
+########
+# Next #
+########
+# Make Workspace
+# http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+
+
+########
+# Next #
+########
+# Get these necessary packages
+
+sudo apt-get install ros-melodic-robot-localization
+sudo apt-get install ros-melodic-tf2-sensor-msgs
+sudo apt-get install ros-melodic-voxel-grid
+sudo apt-get install ros-melodic-base-local-planner
+sudo apt-get install ros-melodic-navigation
+sudo apt-get install ros-melodic-rtabmap
+
+########
+# Next #
+########
+# Please see our slackchannel's pinned messages for (******** 1 ********)
+# git clone https://gitlab.com/scheducation/srcp2-competitors.git
+# username: (******** 1 ********)
+# password: (******** 1 ********)
+
+# NASA DOCKER
+# https://gitlab.com/scheducation/srcp2-competitors/-/wikis/Documentation/Running-Simulations
+# host system setup --- https://gitlab.com/scheducation/srcp2-competitors/-/wikis/Documentation/Install-Run/Host-System-Setup
+
+# remove old versions of Docker, It’s OK if apt-get reports that none of 
+# these packages are installed.
+sudo apt-get remove docker docker-engine docker.io
+
+sudo apt-get update
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+# Add Docker’s official GPG key:
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# Verify that you now have the key with the fingerprint:
+#  9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88
+sudo apt-key fingerprint 0EBFCD88
+
+#  set up the stable repository
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+# and... install docker
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+# verify -- this must work before you move onto starting the simulation 
+sudo docker run hello-world
+
+# --- Run Docker as Non Root (__strongly__ recommended!) ---
+
+# create the group "docker" and add yourself to it...
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
+# you must now log-out and the log-back in again for this change to take 
+# effect, or run:
+newgrp docker 
+
+# verify that docker runs without sudo:
+docker run hello-world
+
+# finally, please check the version. You will need Docker version 19.03.5 
+# or higher
+docker --version
+
+# done.
+sudo apt install nvidia-modprobe
+
+########
+# Next #
+########
+### NVIDIA STUFF
+# https://gitlab.com/scheducation/srcp2-competitors/-/wikis/Documentation/Install-Run/Install-Nvidia-Driver
+
+#Pre-Install
+
+# verify that Nvidia hardware is present:
+lspci | grep -i nvidia
+
+# verify that Linux is the correct version
+uname -m && cat /etc/*release
+
+# install the GCC
+sudo apt install build-essential
+
+# install Nvidia kernel headers and development packages for the currently running kernel
+sudo apt-get install linux-headers-$(uname -r)
+
+########
+# Next #
+########
+#########
+# Install
+# https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=debnetwork
+
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
+sudo apt-get update
+sudo apt-get -y install cuda #############
+
+A modprobe blacklist file has been created at /etc/modprobe.d to prevent Nouveau
+from loading. This can be reverted by deleting the following file:
+/etc/modprobe.d/nvidia-graphics-drivers.conf
+
+A new initrd image has also been created. To revert, please regenerate your
+initrd by running the following command after deleting the modprobe.d file:
+`/usr/sbin/initramfs -u`
+
+########
+# Next #
+########
+#Post-Install
+# you will need to undertake the "mandatory actions" - sec 7.1.1
+# as far as we can tell, this boils down to:
+
+export PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
+
+#Dependency Troubles
+#NVIDIA install can be finicky. Occasionally apt fails with an unmet dependency error. Often, we have found that this can be due to old versions of NVIDIA packages contaminating the system and can [sometimes] be resolved with the following:
+sudo apt-get purge nvidia-*
+sudo apt-get autoremove
+sudo apt-get install cuda
+#WARNING: This is very much a hack work around. We do not guarantee that this will work or that it will not damage your system! Use at own risk
+
+
+# Nvidia Docker Support
+# https://gitlab.com/scheducation/srcp2-competitors/-/wikis/Documentation/Install-Run/Install-Nvidia-Docker-Support
+# Add the package repositories
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+# install the nvidia docker support packages
+sudo apt-get update 
+sudo apt-get install nvidia-container-toolkit
+
+# restart the docker daemon with nvidia support
+sudo systemctl restart docker
+
+
+
+
+
+###########
+# Finally #
+###########
+# Please see our slackchannel's pinned messages for (******** 1 ********)
+# To Login via docker
+# UN : (******** 1 ********) and the PW : (******** 1 ********)
+
+# git clone https://gitlab.com/scheducation/srcp2-competitors.git
+# username: (******** 1 ********)
+# password: (******** 1 ********)
+
+source /opt/ros/melodic/setup.bash
+
+sudo docker login
+cd ~/Documents/Workspace/work/official/srcp2-competitors$ 
+source ros_workspace/install/setup.bash
+sudo docker/scripts/launch/roslaunch_docker --run-round 1
+
+# cd to the appropriate catkin workspace
+catkin_make
+source devel/setup.bash
+roslaunch csi_rover_launcher launch_csi_rover.launch       # launches rover control scripts but not the test path script
+# or 
+roslaunch csi_rover_launcher launch_csi_rover_rviz.launch  # Please note that the slider in the rviz control only invokes explicit steering
+                                                           # while the cmd_vel topic requires a "linear y" component to invoke fourwheel steering
+
+

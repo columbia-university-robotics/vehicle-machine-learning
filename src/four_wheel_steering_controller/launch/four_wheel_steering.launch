@@ -1,0 +1,15 @@
+<launch>
+
+
+  <rosparam command="load" file="$(find four_wheel_steering_controller)/config/four_wheel_steering_controller_4ws_cmd.yaml" />
+
+  <!-- Start four_wheel_steering -->
+	<node name="four_wheel_steering_controller_node"
+	pkg="four_wheel_steering_controller"
+	type="ros_controller_main" output="screen">
+	</node>
+	
+
+</launch>
+
+

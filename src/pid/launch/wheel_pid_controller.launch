@@ -1,0 +1,77 @@
+<launch>
+    <!-- shared args for all wheels -->
+    <arg name="_Kp"                 default="5.0" />
+    <arg name="_Ki"                 default="0.1" />
+    <arg name="_Kd"                 default="0.1" />
+    <arg name="_upper_limit"        default="20" />
+    <arg name="_lower_limit"        default="-20" />
+    <arg name="_windup_limit"       default="10" />
+    <arg name="_max_loop_frequency" default="100.0" />
+    <arg name="_min_loop_frequency" default="50.0" />
+
+    <param name="use_sim_time" value="true" />
+    <arg name="rover_name" default="scout_1"/>
+    <param name="rover_name" value="$(arg rover_name)" />
+
+
+    <node name="fl_axle" pkg="pid" type="controller" ns="$(arg rover_name)" output="screen" >
+    <!--node name="controller" pkg="pid" type="controller" ns="$(arg rover_name)" output="screen" -->
+      <!--param name="node_name" value="fl_axle_node_name" /-->
+      <param name="Kp"                 value="$(arg _Kp)" />
+      <param name="Ki"                 value="$(arg _Ki)" />
+      <param name="Kd"                 value="$(arg _Kd)" />
+      <param name="upper_limit"        value="$(arg _upper_limit)" />
+      <param name="lower_limit"        value="$(arg _lower_limit)" />
+      <param name="windup_limit"       value="$(arg _windup_limit)" />
+      <param name="max_loop_frequency" value="$(arg _max_loop_frequency)" />
+      <param name="min_loop_frequency" value="$(arg _min_loop_frequency)" />
+      <remap from="setpoint"       to="/$(arg rover_name)/fl_axle/setpoint" />
+      <remap from="state"          to="/$(arg rover_name)/fl_axle/state" />
+      <remap from="control_effort" to="/$(arg rover_name)/fl_axle/control_effort" />
+     </node>
+
+
+    <node name="fr_axle" pkg="pid" type="controller" ns="$(arg rover_name)" output="screen" >
+      <param name="Kp"                 value="$(arg _Kp)" />
+      <param name="Ki"                 value="$(arg _Ki)" />
+      <param name="Kd"                 value="$(arg _Kd)" />
+      <param name="upper_limit"        value="$(arg _upper_limit)" />
+      <param name="lower_limit"        value="$(arg _lower_limit)" />
+      <param name="windup_limit"       value="$(arg _windup_limit)" />
+      <param name="max_loop_frequency" value="$(arg _max_loop_frequency)" />
+      <param name="min_loop_frequency" value="$(arg _min_loop_frequency)" />
+      <remap from="setpoint"       to="/$(arg rover_name)/fr_axle/setpoint" />
+      <remap from="state"          to="/$(arg rover_name)/fr_axle/state" />
+      <remap from="control_effort" to="/$(arg rover_name)/fr_axle/control_effort" />
+     </node>
+
+    <node name="bl_axle" pkg="pid" type="controller" ns="$(arg rover_name)" output="screen" >
+      <param name="Kp"                 value="$(arg _Kp)" />
+      <param name="Ki"                 value="$(arg _Ki)" />
+      <param name="Kd"                 value="$(arg _Kd)" />
+      <param name="upper_limit"        value="$(arg _upper_limit)" />
+      <param name="lower_limit"        value="$(arg _lower_limit)" />
+      <param name="windup_limit"       value="$(arg _windup_limit)" />
+      <param name="max_loop_frequency" value="$(arg _max_loop_frequency)" />
+      <param name="min_loop_frequency" value="$(arg _min_loop_frequency)" />
+      <remap from="setpoint"       to="/$(arg rover_name)/bl_axle/setpoint" />
+      <remap from="state"          to="/$(arg rover_name)/bl_axle/state" />
+      <remap from="control_effort" to="/$(arg rover_name)/bl_axle/control_effort" />
+     </node>
+
+    <node name="br_axle" pkg="pid" type="controller" ns="$(arg rover_name)" output="screen" >
+      <param name="Kp"                 value="$(arg _Kp)" />
+      <param name="Ki"                 value="$(arg _Ki)" />
+      <param name="Kd"                 value="$(arg _Kd)" />
+      <param name="upper_limit"        value="$(arg _upper_limit)" />
+      <param name="lower_limit"        value="$(arg _lower_limit)" />
+      <param name="windup_limit"       value="$(arg _windup_limit)" />
+      <param name="max_loop_frequency" value="$(arg _max_loop_frequency)" />
+      <param name="min_loop_frequency" value="$(arg _min_loop_frequency)" />
+      <remap from="setpoint"       to="/$(arg rover_name)/br_axle/setpoint" />
+      <remap from="state"          to="/$(arg rover_name)/br_axle/state" />
+      <remap from="control_effort" to="/$(arg rover_name)/br_axle/control_effort" />
+     </node>
+
+
+</launch>

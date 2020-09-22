@@ -1,0 +1,55 @@
+<launch>
+
+    <arg name="rover_name" default="scout_1"    />
+    <arg name="rtabmapviz" default="true"       />
+
+    <!-- RTAB-map parameter overrides -->
+    <!--    optimizing parameters for ground detection -->
+    <group ns="rtabmap/Grid">
+        <param name="MaxGroundAngle"       type="string"   value="55"                  />
+        <param name="CellSize"             type="string"   value="0.05"                />
+        <param name="ClusterRadius"        type="string"   value="0.15"                />
+        <param name="RangeMax"             type="string"   value="12"                  />
+        <param name="DepthRoiRatios"       type="string"   value="0.0 0.0 0.0 0.050"   />
+    </group>
+
+    <node pkg="tf" type="static_transform_publisher" name="map_odom" args="0 0 0 0 0 0 map odom 100"/>
+
+    <!--    RTAB-map Node   -->
+    <include file="$(find csi_rover_localizer)/launch/rtabmap.launch">
+
+        <arg name="args"                        value="--delete_db_on_start"          />
+
+        <arg name="imu_topic"                   value="/$(arg rover_name)/imu_rect" />
+        <arg name="wait_imu_to_init"            value="true"                        />
+
+        <arg name="icp_odometry"                value="false"       />
+        <arg name="visual_odometry"             value="true"        />
+        <arg name="localization"                value="false"       />
+        <arg name="publish_tf_map"              value="false"        />
+        <arg name="publish_tf_odom"             value="false"       />  <!-- NOTE: if ekf is used, this is false -->
+
+        <!-- odometry topics -->
+        <arg name="odom_pub_topic"              value="/rtabmap/visual_odom" />
+        <arg name="odom_sub_topic"              value="/$(arg rover_name)/ekf_odom" />
+        <arg name="odom_frame_id"               value="odom"    />
+
+        <arg name="frame_id"                    value="$(arg rover_name)_tf/base_footprint"             />
+        <arg name="approx_sync"                 value="true"                                            />
+        <arg name="rtabmapviz"                  value="true"                                            />
+
+        <!-- depth camera args               -->
+        <arg name="stereo"                      value="false"                                           />
+        <arg name="rgb_topic"                   value="/$(arg rover_name)/camera/left/image_raw_rect"   />
+        <arg name="depth_topic"                 value="/stereo/depth_image"                             />
+        <arg name="camera_info_topic"           value="/$(arg rover_name)/camera/left/camera_info" />
+
+        <!--    laser scans and point clouds    -->
+        <arg name="subscribe_scan"              value="false"/>
+        <arg name="scan_topic"                  value="/$(arg rover_name)/laser/scan"/>
+        <arg name="subscribe_scan_cloud"        value="true"/>
+        <arg name="scan_cloud_topic"            value="/stereo/points2"/>
+
+    </include>
+
+</launch>

@@ -1,0 +1,53 @@
+<launch>
+
+    <arg name="rover_name" default="scout_1" />
+
+    <param name="rover_name" value="$(arg rover_name)" />
+    <param name="right_camera_info" value="/$(arg rover_name)/camera/right/camera_info" />
+    <param name="left_camera_info" value="/$(arg rover_name)/camera/left/camera_info" />
+
+    <!-- Set up fixed camera info generation -->
+    <node pkg="csi_rover_vision" type="camera_info_process" name="camera_info_process" output="screen"/>
+
+    <!----> <node pkg="csi_rover_vision" type="image_raw_rectifier.py" name="image_raw_rectifier" output="screen"/> 
+
+    <!-- =========================================================================================================== -->
+
+    <!-- Stereo Image Proc -->
+    <node pkg="image_proc" type="image_proc" name="image_proc_right" ns="stereo/image_proc_right" >
+
+        <remap to="/$(arg rover_name)/camera/right/image_raw_rect" from="image_raw" />
+        <remap to="/$(arg rover_name)/camera/right/camera_info" from="camera_info" />
+        <param name="approximate_sync" value="true" />
+    </node>
+
+    <node pkg="image_proc" type="image_proc" name="image_proc_left" ns="stereo/image_proc_left" >
+
+        <remap to="/$(arg rover_name)/camera/left/image_raw_rect" from="image_raw" />
+        <remap to="/$(arg rover_name)/camera/left/camera_info" from="camera_info" />
+        <param name="approximate_sync" value="true" />
+    </node>
+
+    <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc" ns="stereo" output="screen">
+
+        <remap to="/stereo/image_proc_right/image_rect_color" from="right/image_raw" />
+        <remap to="/$(arg rover_name)/camera/right/camera_info" from="right/camera_info" />
+
+        <remap to="/stereo/image_proc_left/image_rect_color" from="left/image_raw" />
+        <remap to="/$(arg rover_name)/camera/left/camera_info" from="left/camera_info" />
+
+        <param name="approximate_sync" value="true" />
+        <param name="queue_size" value="5" />
+    </node>
+
+    <!--node name="dynamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam"
+          args="load /stereo/stereo_image_proc $(find csi_rover_vision)/params/stereo_config_5.yaml" /-->
+
+    <node pkg="csi_rover_vision" type="image_segmenter.py" name="image_segmenter">
+        <param name="rover_name" value="$(arg rover_name)" />
+        <param name="image_topic" value="/stereo/image_proc_right/image_rect_color" />
+        <param name="depth_image_topic" value="/stereo/depth_image" />
+        <param name="tagged_image_topic" value="/segmented_image" />
+    </node>
+
+</launch>

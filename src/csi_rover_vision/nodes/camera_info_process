@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+import rospy
+from std_msgs.msg import Header
+from sensor_msgs.msg import CameraInfo
+
+
+class CameraInfoProcessor:
+
+    def __init__(self):
+        rospy.init_node('camera_info_processor')
+        rospy.Subscriber(rospy.get_param('right_camera_info'), CameraInfo, callback=self.right_camera_callback)
+        rospy.Subscriber(rospy.get_param('left_camera_info'), CameraInfo, callback=self.left_camera_callback)
+        self.right_pub = rospy.Publisher("/" + rospy.get_param('rover_name') + '/camera/right/camera_info_rect',
+                                         CameraInfo, queue_size=10)
+        self.left_pub = rospy.Publisher("/" + rospy.get_param('rover_name') + '/camera/left/camera_info_rect',
+                                        CameraInfo, queue_size=10)
+        rospy.spin()
+
+    def left_camera_callback(self, data):
+        self.camera_info_callback(data, True)
+
+    def right_camera_callback(self, data):
+        self.camera_info_callback(data, False)
+
+    def camera_info_callback(self, data, is_left):
+        new_message = data
+        # new_message.header.frame_id = rospy.get_param('rover_name') + "_tf/camera_link_rect"
+
+        # Tx must be 0 for the left camera to meet specifications
+        if is_left:
+            new_message.P = tuple(list(data.P[:3]) + [0] + list(data.P[4:])) 
+
+        # Now publish
+        if is_left:
+            # new_message.header.frame_id = rospy.get_param('rover_name') + "_tf/left_camera_link_rect"
+            self.left_pub.publish(new_message)
+        else:
+            # new_message.header.frame_id = rospy.get_param('rover_name') + "_tf/right_camera_link_rect"
+            self.right_pub.publish(new_message)
+
+
+if __name__ == "__main__":
+    CameraInfoProcessor()

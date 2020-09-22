@@ -1,0 +1,9 @@
+<library path="lib/libcsi_rover_rotate_recovery">
+  <class type="csi_rover_rotate_recovery::CsiRoverRotateRecovery" base_class_type="nav_core::RecoveryBehavior">
+    <description>
+  This is a recovery plugin that rotates the rover in place in order to attempt to clear out space.
+  The csi rover requires a custom plugin to do this because a velocity must be given to the linear.x.
+  The default nav_core rotate_recovery does not give a usable linear.x. 
+    </description>
+  </class>
+</library>

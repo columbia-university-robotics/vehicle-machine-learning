@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+import rospy
+import math
+from nav_msgs.msg import Odometry
+from std_msgs.msg import String
+from std_msgs.msg import Float32
+from collections import deque
+import numpy as np
+euclid_err_pub = rospy.Publisher("/debugging/localization/euclid_err", Float32)
+norm_err_pub = rospy.Publisher("/debugging/localization/norm_err", Float32)
+sd_euclid_err_pub = rospy.Publisher("/debugging/localization/standard_deviation_euclid", Float32)
+sd_norm_err_pub = rospy.Publisher("/debugging/localization/standard_deviation_norm", Float32)
+# To record base difference at start
+reference_frame_modifier = None
+first_truth = None
+"""
+rosbag record  -e  "/debugging/localization/(.*)" 
+"""
+# To record distance for std_dev
+sd_planar_deque = deque(maxlen=1000)
+sd_nonpla_deque = deque(maxlen=1000)
+# For continual update
+last_ground_truth = None
+current_planar_sum = 0
+current_nonpla_sum = 0
+
+def ground_truth_handler(truth):
+    global last_ground_truth, first_truth
+    if first_truth == None:
+        first_truth = truth
+    last_ground_truth = truth
+
+def euclid(pos1, pos2, mod=[0, 0, 0], planar=False):
+    if planar:
+        return math.sqrt((pos1.x - pos2.x - mod[0])**2 + \
+            (pos1.y - pos2.y - mod[1])**2)
+    else:
+        return math.sqrt((pos1.x - pos2.x - mod[0])**2 + \
+            (pos1.y - pos2.y - mod[1])**2 + (pos1.z - pos2.z - mod[2])**2)
+
+def odom_handler(odom):
+    global last_ground_truth, reference_frame_modifier, first_truth
+    if last_ground_truth == None:
+        return
+    euclidean_difference = 0
+    coors = odom.pose.pose.position
+    ground_coors = last_ground_truth.pose.pose.position
+    if reference_frame_modifier == None:
+        reference_frame_modifier = [coors.x - ground_coors.x,
+                coors.y-ground_coors.y, coors.z-ground_coors.z]
+    euclid_position_error = euclid(coors, ground_coors)
+    norm_euclid_error = euclid(coors, ground_coors, reference_frame_modifier)
+    norm_planar_err = euclid(coors, ground_coors, reference_frame_modifier, True)
+    # Now compute a baseline (i.e. estimator which doesn't ever change from start point)
+    baseline_coors = first_truth.pose.pose.position
+    baseline_position_error = euclid(baseline_coors, ground_coors)
+    #rospy.loginfo('Euclid error: (raw) %s (normalized) %s (baseline) %s', str(euclid_position_error)[:5], \
+            #str(norm_euclid_error)[:5], str(baseline_position_error)[:5])
+    #rospy.loginfo('Planar error: (normalized) %s', str(norm_planar_err)[:5])
+
+    euclid_err_pub.publish(euclid_position_error)
+    norm_err_pub.publish(norm_planar_err)
+    if( int(rospy.get_time()) % 5 == 0 ):
+        sd_planar_deque.append(norm_planar_err)
+        sd_nonpla_deque.append(baseline_position_error)    
+        sd_euclid_err_pub.publish(np.std(sd_planar_deque))
+        sd_norm_err_pub.publish(  np.std(sd_nonpla_deque))
+def main():
+    rospy.init_node('odom_diag')
+    rospy.Subscriber(rospy.get_param('ground_truth_topic'), Odometry, ground_truth_handler)
+    rospy.Subscriber(rospy.get_param('odometry_estimator_topic'), Odometry, odom_handler)
+    rospy.loginfo('odom disparity diagnostic online')
+    rospy.spin()
+
+if __name__ == '__main__':
+    main()

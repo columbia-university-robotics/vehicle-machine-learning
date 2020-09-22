@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# Converts NED IMU data to ENU to meet robot_localization requirements
+# (i.e. convert to REP-103 format)
+
+import rospy
+from std_msgs.msg import Header
+from sensor_msgs.msg import Imu
+from tf.transformations import euler_from_quaternion
+from copy import deepcopy
+import numpy as np
+
+MEASURE_WINDOW = 10
+
+
+class ImuRectifier:
+
+    def __init__(self):
+        self.last_message = None  # for bimodal corrections
+        self.last_measures = {'lin_acc_x': [],
+                              'lin_acc_y': [],
+                              'lin_acc_z': []}
+
+        rospy.init_node('imu_rectifier')
+        self.dynamic_covariance = rospy.get_param('dynamic_covariance', True)
+        rospy.Subscriber(rospy.get_param('imu_topic', '/scout_1/imu'), Imu, callback=self.imu_callback)
+        self.rover_name = rospy.get_param('rover_name')
+        self.imu_pub = rospy.Publisher("/" + self.rover_name + '/imu_rect', Imu, queue_size=10)
+        rospy.spin()
+
+    def imu_callback(self, data):
+        new_message = deepcopy(data)
+
+        # Repair 0: Handle bimodal linear acceleration distribution that
+        # oscillates between both means on consecutive rounds
+        # Patch: Average even and odd message linear_acceleration together
+        if not self.last_message is None:
+            tick_lin_acc = self.last_message.linear_acceleration
+            tock_lin_acc = new_message.linear_acceleration
+            new_message.linear_acceleration.x = (tick_lin_acc.x + tock_lin_acc.x) / 2
+            new_message.linear_acceleration.y = (tick_lin_acc.y + tock_lin_acc.y) / 2
+            new_message.linear_acceleration.z = (tick_lin_acc.z + tock_lin_acc.z) / 2
+
+        # Compute covariances
+        covariances = {'lin_acc_x': 0.001, 'lin_acc_y': 0.001, 'lin_acc_z': 0.01}
+        if self.dynamic_covariance:
+            self.last_measures['lin_acc_x'].append(new_message.linear_acceleration.x)
+            self.last_measures['lin_acc_y'].append(new_message.linear_acceleration.y)
+            self.last_measures['lin_acc_z'].append(new_message.linear_acceleration.z)
+            for i in self.last_measures:
+                # cap at 10 measures
+                self.last_measures[i] = self.last_measures[i][-MEASURE_WINDOW:]
+                # ensure we have enough data
+                if len(self.last_measures[i]) < MEASURE_WINDOW:
+                    continue
+                covariances[i] = np.std(self.last_measures[i])
+
+        # Repair 1: Add covariance matrices
+        new_message.linear_acceleration_covariance = [covariances['lin_acc_x'], 0.0, 0.0,
+                                                      0.0, covariances['lin_acc_y'], 0.0,
+                                                      0.0, 0.0, covariances['lin_acc_z']]
+        new_message.orientation_covariance = [0.000001, 0.0, 0.0,
+                                              0.0, 0.000001, 0.0,
+                                              0.0, 0.0, 0.000001]
+        # Now publish
+        self.imu_pub.publish(new_message)
+
+        self.last_message = data
+
+
+if __name__ == "__main__":
+    ImuRectifier()

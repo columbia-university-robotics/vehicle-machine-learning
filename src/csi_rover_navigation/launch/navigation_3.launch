@@ -1,0 +1,47 @@
+<!--
+Self-driving vehicle navigation tests using
+rtabmap_ros, and actionlib goals.
+
+Note:
+In order to use `rtab_map_navigation`, `rtab_map` must be running.
+
+Copyright (c) Sanabria Jonathan, Yongyang Nie, 2020
+All Rights Reserved
+
+Email: jonsanria@gmail.com
+Email: contact@neilnie.com
+-->
+
+<launch>
+
+    <group ns="navigation">
+
+        <!-- Start RTAB-map launch file, localization mode -->
+        <remap from="map"       to="/rtabmap/grid_map"      />
+        <remap from="move_base_simple/goal" to="/move_base_simple/goal"/>
+        <remap from="cmd_vel"   to="/scout_1/cmd_vel"  />
+        <remap from="odom"      to="/scout_1/ekf_odom"      />
+
+          <!-- Launch the move_base node with the specified config files -->
+          <node pkg="csi_rover_move_base" type="csi_rover_move_base" respawn="true" name="csi_rover_move_base" output="screen">
+
+            <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+            <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+            <rosparam file="$(find csi_rover_navigation)/params/costmap_common_params.yaml"
+                      command="load" ns="global_costmap" />
+            <rosparam file="$(find csi_rover_navigation)/params/costmap_common_params.yaml"
+                      command="load" ns="local_costmap" />
+
+            <rosparam file="$(find csi_rover_navigation)/params/costmap_local_params.yaml"       command="load" />
+            <rosparam file="$(find csi_rover_navigation)/params/costmap_global_params.yaml"      command="load" />
+            <rosparam file="$(find csi_rover_navigation)/params/base_local_planner_params.yaml"  command="load" />
+            <rosparam file="$(find csi_rover_navigation)/params/global_planner_params.yaml"      command="load" />
+
+        </node>
+
+        <!-- Launch the global planner node -->
+        <node pkg="csi_rover_navigation" type="apriori_and_base.py" respawn="false" name="global_planner" output="screen">
+        </node>
+    </group>
+
+</launch>

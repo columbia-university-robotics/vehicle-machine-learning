@@ -1,0 +1,34 @@
+#
+# local costmap param file
+# (c) CSI, 2019, All Rights Reserved
+#
+
+local_costmap:
+
+  global_frame: map
+  robot_base_frame: scout_1_tf/base_footprint
+  update_frequency: 10.0
+  publish_frequency: 5.0
+  static_map: false
+  rolling_window: true
+  width: 22.0
+  height: 22.0
+  resolution: 0.08
+
+  inflation_radius: 2.01
+  cost_scaling_factor: 1
+
+  observation_sources: laser_scan_sensor
+
+  # laser scanner sensor, local costmap.
+  laser_scan_sensor: {
+    sensor_frame: scout_1_tf/hokuyo_link,
+    data_type: LaserScan,
+    topic: /scout_1/laser/filtered,
+    marking: true,
+    clearing: true,
+    expected_update_rate: 15.0,    # the sensor publish rate
+    inf_is_valid: true,
+    obstacle_range: 22,            # the sensor range is defined in the mapping package
+    observation_persistence: 2.0   # low observation_persistence helps clear obstacles
+  }

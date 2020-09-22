@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="csi_rover_sensors" type="csi_rover_sensors" name="rover_sensors" output="screen">
+        <rosparam command="load" file="$(dirname)/../config/rover_sensors_config.yaml" />
+    </node>
+</launch>

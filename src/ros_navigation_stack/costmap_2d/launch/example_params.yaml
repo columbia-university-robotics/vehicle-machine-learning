@@ -1,0 +1,63 @@
+#
+# local costmap param file
+# (c) CSI, 2019, All Rights Reserved
+#
+
+plugins:
+  - {name: static_layer, type: "costmap_2d::StaticLayer"}
+  - {name: obstacle_layer, type: "costmap_2d::VoxelLayer"}
+  - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+global_frame: odom
+robot_base_frame: scout_1_tf/base_footprint
+update_frequency: 5.0
+publish_frequency: 1.0
+
+#set if you want the voxel map published
+publish_voxel_map: true
+
+#set to true if you want to initialize the costmap from a static map
+static_map: false
+
+#begin - COMMENT these lines if you set static_map to true
+rolling_window: true
+width: 12.0
+height: 12.0
+resolution: 0.025
+#end - COMMENT these lines if you set static_map to true
+
+#START VOXEL STUFF
+map_type: voxel
+origin_z: 0.0
+z_resolution: 0.2
+z_voxels: 10
+unknown_threshold: 10
+mark_threshold: 0
+#END VOXEL STUFF
+
+transform_tolerance: 0.3
+obstacle_range: 2.5
+max_obstacle_height: 2.0
+raytrace_range: 3.0
+footprint: [[-0.325, -0.325], [-0.325, 0.325], [0.325, 0.325], [0.46, 0.0], [0.325, -0.325]]
+#robot_radius: 0.46
+footprint_padding: 0.01
+inflation_radius: 0.55
+cost_scaling_factor: 10.0
+lethal_cost_threshold: 100
+
+obstacle_layer:
+  observation_sources:   laser_scan_sensor
+
+  # laser scanner sensor, local costmap.
+  laser_scan_sensor: {
+    sensor_frame: scout_1_tf/hokuyo_link,
+    data_type: LaserScan,
+    topic: /scout_1/laser/filtered,
+    marking: true,
+    clearing: true,
+    expected_update_rate: 15.0,    # the sensor publish rate
+    inf_is_valid: true,
+    obstacle_range: 30,            # the sensor range is defined in the mapping package
+    observation_persistence: 2.0   # low observation_persistence helps clear obstacles
+  }

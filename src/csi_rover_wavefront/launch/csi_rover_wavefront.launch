@@ -1,0 +1,8 @@
+<launch>
+
+    <!-- Launch wavefront frontier algorithm -->
+    <node name="wavefront" pkg="csi_rover_wavefront" type="wavefront.py" >
+        <!-- params ... -->
+    </node>
+
+</launch>

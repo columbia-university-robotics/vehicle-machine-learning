@@ -1,0 +1,6 @@
+float64 x
+float64 y
+string client_name
+---
+bool arrived
+

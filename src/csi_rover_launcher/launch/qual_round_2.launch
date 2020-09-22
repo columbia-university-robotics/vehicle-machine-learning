@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="rover_name"  default="scout_1"/>
+
+</launch>

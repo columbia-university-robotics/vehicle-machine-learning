@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="moon">
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- DEM of moon surface -->
+    <include>
+
+      <uri>model://apollo15_landing_site_1000x1000</uri>
+      <!-- Please maintain ground_plane for easy controls testing throughout development -->
+      <!--<uri>model://ground_plane</uri>--> 
+    </include>
+    <!-- Please maintain user camera configuration for easy controls testing throughout dev. -->
+    <!-- Set Perspective -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0 0 200 0 1.57079632679 1.57079632679</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+    <!-- Own physics settings to speed up simulation -->
+    <physics type='ode'>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+      <gravity>0 0 -1.622</gravity>
+    </physics>
+  </world>
+</sdf>

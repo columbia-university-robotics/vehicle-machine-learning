@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="csi_rover_watchdog" type="watchdog.py" respawn="false" name="watchdog" output="screen"/>
+</launch>

@@ -1,0 +1,21 @@
+imu:
+  subscriber:
+    topic: /scout_1/imu
+  publisher:
+    topic: /scout_1/imu_rect
+laserscan:
+  subscriber:
+    topic: /scout_1/laser/scan
+  publisher:
+    topic: /scout_1/laser/scan_rect
+camera:
+  left:
+    subscriber:
+      topic: /scout_1/camera/left/image_raw
+    publisher:
+      topic: /scout_1/camera/left/image_raw_rect
+  right:
+    subscriber:
+      topic: /camera/right/image_raw
+    publisher:
+      topic: /scout_1/camera/right/image_raw_rect

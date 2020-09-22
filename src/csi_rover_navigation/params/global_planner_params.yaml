@@ -1,0 +1,11 @@
+GlobalPlanner:
+
+  publish_potential: true
+  visualize_potential: true
+
+  cost_factor: 3
+  neutral_cost: 50
+  lethal_cost: 253
+
+  outline_map: false 
+

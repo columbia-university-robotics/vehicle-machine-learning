@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- Load controller config 
+ 	<param name="rover_name" value="$(arg rover_name)" />
+
+  <rosparam command="load" file="$(find diff_drive_controller)/config/diff_drive_steering_controller.yaml" />-->
+
+  <!-- Start publishing a goal -->
+	<node name="csi_rover_move_base_node"
+	  pkg="csi_rover_move_base"
+	  type="csi_rover_move_base" output="screen">
+	</node>
+
+</launch>
